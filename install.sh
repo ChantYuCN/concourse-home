@@ -4,6 +4,17 @@
 # arch x86-64
 
 
+# step -1. env var
+IP=$1
+DNS=$2  # need include quote
+mkdir -p _workspace
+pushd _workspace
+#curl -O https://concourse-ci.org/docker-compose.yml
+if [ -z IP ] || [ -z DNS ]; then
+  echo "please provide host ip and dns ip/url"
+  exit
+fi
+
 # step 0. install docker and docker-compose
 sudo apt-get install docker.io -y
 sudo usermod -aG docker $(users)
@@ -14,11 +25,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 # step 1. Clean the redundant data
 if [[ -d _workspace ]]; then
-  cd _workspace
+  pushd _workspace
   docker-compose down
-  cd -
-  echo "clean redundant data"	
-  rm -rf _workspace
+  popd
+  #echo "clean redundant data"	
+  #rm -rf _workspace
 fi
 
 if [[ -f /usr/local/bin/fly ]]; then
@@ -37,11 +48,7 @@ fi
 # step 2. install concourse and fly
 # concourse contains TSA(seucrity), ATC(UI), gardon(container manager), baggageclaim(volume)
 # db 
-
-mkdir _workspace
-pushd _workspace
-curl -O https://concourse-ci.org/docker-compose.yml
-docker-compose up -d
+host_ip=$IP worker_dns=$DNS docker-compose up -d
 popd
 
 curl 'http://localhost:8080/api/v1/cli?arch=amd64&platform=linux' -o fly
