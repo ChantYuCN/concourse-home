@@ -2,9 +2,15 @@
 # linux OS 
 # distro ubuntu
 # arch x86-64
-
+set -ex
 
 # step -1. env var
+unset http_proxy
+unset https_proxy
+unset HTTP_PROXY
+unset HTTPS_PROXY
+
+
 IP=$1
 DNS=$2  # need include quote
 #curl -O https://concourse-ci.org/docker-compose.yml
@@ -64,5 +70,13 @@ pushd _workspace
 host_ip=$IP worker_dns=$DNS docker-compose up -d
 popd
 
-curl 'http://localhost:8080/api/v1/cli?arch=amd64&platform=linux' -o fly
+until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8080) ]]
+do
+   echo "wait to concourse ready"
+   sleep 1
+done
+# wait 10 secs for concourse ready
+sleep 10
+
+curl "http://$IP:8080/api/v1/cli?arch=amd64&platform=linux" -o fly
 chmod +x ./fly && sudo mv ./fly /usr/local/bin/
