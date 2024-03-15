@@ -33,3 +33,4 @@ services:
       CONCOURSE_WORKER_CONTAINERD_DNS_SERVER: ${worker_dns}
       # For ARM-based machine, change the Concourse runtime to "houdini"
       CONCOURSE_WORKER_RUNTIME: "containerd"
+      #CONCOURSE_ADD_LOCAL_USER=myuser:mypass,anotheruser:anotherpass
