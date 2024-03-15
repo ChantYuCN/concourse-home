@@ -2,14 +2,14 @@
 
 
 
-# Set up local Concourse via docker-compose
+## Set up local Concourse via docker-compose
 
 ```console
 bash install.sh [host ip] [dns with quota]
 ```
 
 
-# Login to local Concourse via fly-cli as "test" user
+## Login to local Concourse via fly-cli as "test" user
 
 After login via fly-cli, the token is saved in ~/.flyrc
 

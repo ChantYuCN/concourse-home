@@ -1,5 +1,11 @@
 version: '3'
 
+networks:
+  gitea:
+    external: false
+  concourse:
+    external: false
+
 services:
   concourse-db:
     image: postgres
@@ -8,13 +14,16 @@ services:
       POSTGRES_PASSWORD: concourse_pass
       POSTGRES_USER: concourse_user
       PGDATA: /database
-
+    networks:
+      - concourse
   concourse:
     image: concourse/concourse
     command: quickstart
     privileged: true
-    depends_on: [concourse-db]
-    ports: ["8080:8080"]
+    depends_on: 
+      - concourse-db
+    ports: 
+      - "8080:8080"
     environment:
       CONCOURSE_POSTGRES_HOST: concourse-db
       CONCOURSE_POSTGRES_USER: concourse_user
@@ -34,3 +43,38 @@ services:
       # For ARM-based machine, change the Concourse runtime to "houdini"
       CONCOURSE_WORKER_RUNTIME: "containerd"
       #CONCOURSE_ADD_LOCAL_USER=myuser:mypass,anotheruser:anotherpass
+    networks:
+      - concourse
+  gitea-server:
+    image: gitea/gitea:1.21.7
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=gitea-db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=gitea
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8081:3000"
+      - "222:22"
+    depends_on:
+      - gitea-db
+  gitea-db:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    networks:
+      - gitea
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
