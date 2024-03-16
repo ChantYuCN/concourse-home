@@ -1,0 +1,27 @@
+resources:
+- name: hellorepo
+  type: git
+  source: 
+    uri: "http://10.67.103.109:8081/testgitea/helloreoi.git"
+    branch: master
+    submodule_credentials:
+    - host: "http://10.67.103.109:8081"
+      username: testgitea
+      password: testgitea
+jobs:
+- name: unit
+  plan:
+  - get: hellorepo
+    trigger: true
+#  - task: test
+#    file: booklit/ci/test.yml
+  - task: simple-task
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source: { repository: busybox }
+      run:
+        path: echo
+        args: ["Hello Chant!"]
+
