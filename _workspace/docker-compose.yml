@@ -16,6 +16,8 @@ services:
       PGDATA: /database
     networks:
       - concourse
+    volumes:
+      - ./postgres-concourse:/database
   concourse:
     image: concourse/concourse:7.11.2
     command: quickstart
@@ -77,4 +79,4 @@ services:
     networks:
       - gitea
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres-gitea:/var/lib/postgresql/data

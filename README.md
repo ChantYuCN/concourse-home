@@ -1,11 +1,25 @@
-# CI concourse
+# CI
+
+concourse + gitea  
+
+Run install-ci.sh for simple env.  
+Concourse run both 'web' and 'worker' together, auto-wired.  
+
+
+  generate-key   Generate RSA key for use with Concourse components.  
+  land-worker    Safely drain a worker's assignments for temporary downtime.  
+  migrate        Run database migrations.  
+* quickstart     Run both 'web' and 'worker' together, auto-wired. Not recommended for production.  
+  retire-worker  Safely remove a worker from the cluster permanently.  
+  web            Run the web UI and build scheduler.  
+  worker         Run and register a worker.  
 
 
 
 ## Set up local Concourse via docker-compose
 
 ```console
-bash install.sh [host ip] [dns with quota]
+bash install-ci.sh [host ip] [dns with quota]
 ```
 
 
