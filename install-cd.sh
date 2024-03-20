@@ -62,4 +62,19 @@ curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/lat
 sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 
+# expose argocd service to external traffic
+kubectl apply -f template/selfSignIssuer.yaml 
+kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
 
+# Get the password
+argocd admin initial-password -n argocd
+
+
+# cli login
+# argocd login argocd.example.com
+# argocd account update-password
+
+
+
+#Create An Application From A Git Repository
+#argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
