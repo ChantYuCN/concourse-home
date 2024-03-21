@@ -1,5 +1,7 @@
 # CI
 
+reserve port 8085 8086  
+
 concourse + gitea  
 
 Run install-ci.sh for simple env.  
@@ -28,13 +30,33 @@ bash install-ci.sh [host ip] [dns with quota]
 After login via fly-cli, the token is saved in ~/.flyrc
 
 ```console
-fly -t targetName login -c http://[host ip]:8080 -u test -p test
+fly -t targetName login -c http://[host ip]:8085 -u test -p test
 cat ~/.flyrc
 targets:
   targetName:
-    api: http://[host ip]:8080
+    api: http://[host ip]:8085
     team: main
     token:
       type: bearer
       value: xxxxxxxxxxxxxxxxAAAAAA
 ```
+
+# CD
+
+reserve port 8087  
+
+argocd  
+
+Run install-cd.sh for simple env.  
+
+## Set up local argocd via microk8s
+
+```console
+bash install-cd.sh [host ip] [optional - full deploy yes/no]
+...
+admin password
+9kl8Fygn6SPOGUaV
+
+ This password must be only used for first time login. We strongly recommend you update the password using `argocd account update-password`.
+```
+
