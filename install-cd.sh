@@ -2,6 +2,15 @@
 
 set -xe
 
+
+IP=$1
+
+if [[ -z $IP ]] ; then
+  echo "please provide host ip"
+  exit
+fi
+
+
 # install dependence
 #sudo apt install snap -y
 #
@@ -44,6 +53,7 @@ set -xe
 # microk8s enable cert-manager
 # restart microk8s again
 
+# NO USE? #
 #microk8s enable ingress
 #kubectl edit cm -n ingress  nginx-load-balancer-microk8s-conf
 #
@@ -63,8 +73,11 @@ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 
 # expose argocd service to external traffic
-kubectl apply -f template/selfSignIssuer.yaml 
-kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
+#kubectl apply -f template/selfSignIssuer.yaml 
+#kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
+
+kubectl port-forward --address $IP  svc/argocd-server -n argocd 8083:443 &
+
 
 # Get the password
 argocd admin initial-password -n argocd

@@ -43,13 +43,13 @@ if [[ -f /usr/local/bin/fly ]]; then
 fi
 
 # step 2. make sure consourse port is empty
-until ! [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8080) ]]
+until ! [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8085) ]]
 do
   echo "wait to refresh env for concourse"
   sleep 1
 done
 
-until ! [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8081) ]]
+until ! [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8086) ]]
 do
   echo "wait to refresh env for gitea"
   sleep 1
@@ -75,14 +75,14 @@ done
 pushd _workspace
 host_ip=$IP worker_dns=$DNS docker-compose up -d
 popd
-until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8080) ]]
+until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8085) ]]
 do
    echo "wait for concourse ready"
    sleep 1
 done
 # wait 10 secs for concourse ready
 sleep 10
-until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8081) ]]
+until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 8086) ]]
 do
    echo "wait for gitea ready"
    sleep 1
@@ -90,5 +90,5 @@ done
 
 
 
-curl "http://$IP:8080/api/v1/cli?arch=amd64&platform=linux" -o fly
+curl "http://$IP:8085/api/v1/cli?arch=amd64&platform=linux" -o fly
 chmod +x ./fly && sudo mv ./fly /usr/local/bin/
