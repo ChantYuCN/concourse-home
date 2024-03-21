@@ -64,7 +64,7 @@ fi
 
 
 # Step 1. install Argo CD server
-kubectl create namespace argocd
+#kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # Step 2. install Argo CD client
@@ -77,6 +77,7 @@ rm argocd-linux-amd64
 #kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
 
 kubectl port-forward --address $IP  svc/argocd-server -n argocd 8083:443 &
+#sudo cp ./systemd/argocd-aio.service   /etc/systemd/system/ 
 
 
 # Get the password
