@@ -20,6 +20,7 @@ if [ -z $IP ] || [ -z $DNS ]; then
 fi
 
 # step 0. install docker and docker-compose
+#sudo apt-get install curl dput
 #sudo apt-get install docker.io -y
 #sudo usermod -aG docker $(users)
 ##sudo newgrp docker

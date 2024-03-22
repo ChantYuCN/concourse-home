@@ -1,6 +1,6 @@
 # CI
 
-reserve port 8085 8086  
+reserve port 8085 8086 8087 5000  
 
 concourse + gitea  
 
