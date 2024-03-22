@@ -66,8 +66,12 @@ done
 #fi
 #done
 #exit
-
-
+mkdir -p  _workspace/registry-auth
+mkdir -p  _workspace/registry-data
+pushd _workspace/registry-auth
+docker run --entrypoint htpasswd httpd:2 -Bbn admin Password@123 >> password
+#htpasswd -bc registry.password admin helloworld
+popd
 
 # step 3. install concourse and fly
 # concourse contains TSA(seucrity), ATC(UI), gardon(container manager), baggageclaim(volume)
@@ -88,7 +92,13 @@ do
    sleep 1
 done
 
+until [[ $(sudo lsof  -i -P -n  | grep LISTEN | grep 5000) ]]
+do
+   echo "wait for docker registry"
+   sleep 1
+done
 
+# curl -X GET -u "adminuser:Password@123" http://10.67.103.109:5000/v2/_catalog
 
 curl "http://$IP:8085/api/v1/cli?arch=amd64&platform=linux" -o fly
 chmod +x ./fly && sudo mv ./fly /usr/local/bin/
