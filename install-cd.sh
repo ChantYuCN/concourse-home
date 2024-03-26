@@ -62,10 +62,13 @@ fi
 # After edit cm, restart ingress-nginx pod
 
 
-#helm repo add traefik https://traefik.github.io/charts
+#helm repo add traefik https://traefik.github.io/charts --force-update
+# or https://helm.traefik.io/traefik
 #helm pull traefik/traefik
-#helm repo add argo https://argoproj.github.io/argo-helm
+#helm repo add argo https://argoproj.github.io/argo-helm --force-update
 #helm pull argo/argo
+#helm repo add jetstack https://charts.jetstack.io --force-update
+#helm pull jetstack/cert-manager
 
 # Step 1. install Argo CD server
 if [[ $FULL == "yes" ]]; then
@@ -85,6 +88,9 @@ if [[ $FULL == "yes" ]]; then
 #  kubectl apply -n argocd -f _workspace/traefik/install.yaml
   helm install traefik ./_workspace/traefik/helm-crd -n traefik --set logs.general.level=DEBUG
 
+# Step 4. install cert-manager
+  kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
+  helm install cert-manager ./_workspace/cert-manager -n cert-manager
   sleep 10
 fi
 
@@ -95,6 +101,7 @@ fi
 kubectl port-forward -n argocd --address $IP  svc/argocd-server 8083:443 &
 TRAEFIK=$(kubectl get pods -n traefik --selector "app.kubernetes.io/name=traefik" --output=name)
 kubectl port-forward -n traefik --address $IP $TRAEFIK 9000:9000 &
+kubectl port-forward -n traefik --address $IP $TRAEFIK 8000:8000 &
 #sudo cp ./systemd/argocd-aio.service   /etc/systemd/system/ 
 
 
