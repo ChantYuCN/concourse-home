@@ -1,0 +1,30 @@
+# open browser [hostip:8000]/
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: hi-stripprefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /hi
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-simple
+  namespace: default
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/`)
+    services:
+    - name: chant-svc
+      namespace: default
+      port: 80
+      #      scheme: h2c
+    middlewares:
+    - name: hi-stripprefix
