@@ -43,7 +43,7 @@ targets:
 
 # CD
 
-reserve port 8083  
+reserve port 8083 9000  
 
 argocd  
 

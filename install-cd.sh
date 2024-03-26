@@ -62,22 +62,38 @@ fi
 # After edit cm, restart ingress-nginx pod
 
 
+#helm repo add traefik https://traefik.github.io/charts
+#helm pull traefik/traefik
+#helm repo add argo https://argoproj.github.io/argo-helm
+#helm pull argo/argo
+
 # Step 1. install Argo CD server
 if [[ $FULL == "yes" ]]; then
-  kubectl create namespace argocd
-  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+#  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  kubectl apply -n argocd -f _workspace/argocd/install.yaml
+
 
 # Step 2. install Argo CD client
-  curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-  sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-  rm argocd-linux-amd64
+# curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  sudo install -m 555 ./bin/argocd-linux-amd64 /usr/local/bin/argocd
+#  rm argocd-linux-amd64
+
+# Step 3. install Traefik
+  kubectl create namespace traefik --dry-run=client -o yaml | kubectl apply -f -
+#  kubectl apply -n argocd -f _workspace/traefik/install.yaml
+  helm install traefik ./_workspace/traefik/helm-crd -n traefik --set logs.general.level=DEBUG
+
+  sleep 10
 fi
 
 # expose argocd service to external traffic
 #kubectl apply -f template/selfSignIssuer.yaml 
 #kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
 
-kubectl port-forward --address $IP  svc/argocd-server -n argocd 8083:443 &
+kubectl port-forward -n argocd --address $IP  svc/argocd-server 8083:443 &
+TRAEFIK=$(kubectl get pods -n traefik --selector "app.kubernetes.io/name=traefik" --output=name)
+kubectl port-forward -n traefik --address $IP $TRAEFIK 9000:9000 &
 #sudo cp ./systemd/argocd-aio.service   /etc/systemd/system/ 
 
 
