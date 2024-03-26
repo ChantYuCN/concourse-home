@@ -76,8 +76,9 @@ if [[ $FULL == "yes" ]]; then
 
 # Step 2. install Argo CD client
 # curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-  sudo install -m 555 ./bin/argocd-linux-amd64 /usr/local/bin/argocd
-#  rm argocd-linux-amd64
+  tar -zxvf  ./bin/argocdcli.tgz
+  sudo install -m 555 ./argocd-linux-amd64 /usr/local/bin/argocd
+  rm argocd-linux-amd64
 
 # Step 3. install Traefik
   kubectl create namespace traefik --dry-run=client -o yaml | kubectl apply -f -
