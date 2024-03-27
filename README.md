@@ -1,3 +1,7 @@
+# Pre-Request
+
+Please do time sync for prometheus
+
 # CI
 
 reserve port 8085 8086 8087 5000  
