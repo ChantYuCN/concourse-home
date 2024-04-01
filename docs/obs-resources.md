@@ -73,6 +73,17 @@ go_gc_duration_seconds{quantile="0.25"} 6.5151e-05
 
 - sample: Samples form the actual time series data (fload64 value, milisecs timestamp)
 
+## job and instances
+
+a scrable endpoint is called instance. A collection of instance is call a job. 
+example:  
+
+```console
+job: api-server
+  instance 1: 1.2.3.4:5670
+  instance 2: 1.2.3.4:5671
+```  
+
 HA prometheus.  
 
  Identical alerts will be deduplicated by the Alertmanager.  
