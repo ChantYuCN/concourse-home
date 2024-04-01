@@ -69,6 +69,8 @@ fi
 #helm pull argo/argo
 #helm repo add jetstack https://charts.jetstack.io --force-update
 #helm pull jetstack/cert-manager
+#helm repo add prom https://prometheus-community.github.io/helm-charts
+
 
 # Step 1. install Argo CD server
 if [[ $FULL == "yes" ]]; then
@@ -98,9 +100,12 @@ fi
 #kubectl apply -f template/selfSignIssuer.yaml 
 #kubectl apply -f template/argocd-ingress-nginx-cert-manager.yaml
 
-kubectl port-forward -n argocd --address $IP  svc/argocd-server 8083:443 &
+#http://:8089
+kubectl port-forward -n argocd --address $IP  svc/argocd-server 8089:80 &
 TRAEFIK=$(kubectl get pods -n traefik --selector "app.kubernetes.io/name=traefik" --output=name)
+#http://:9000/dashboard
 kubectl port-forward -n traefik --address $IP $TRAEFIK 9000:9000 &
+#api-gateway
 kubectl port-forward -n traefik --address $IP $TRAEFIK 8000:8000 &
 #sudo cp ./systemd/argocd-aio.service   /etc/systemd/system/ 
 
