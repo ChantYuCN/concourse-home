@@ -1,10 +1,19 @@
+# Service
+
+8085: consourse  
+8086: gitea  
+5000: docker-registry  
+8089: argocd  
+8000: api-gateway  
+9000: traefik  
+
 # Pre-Request
 
 Please do time sync for prometheus
 
 # CI
 
-reserve port 8085 8086 8087 5000  
+reserve port 8085 8086 5000 8089 8000 9000   
 
 concourse + gitea  
 

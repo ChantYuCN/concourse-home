@@ -28,7 +28,7 @@ fi
 
 # Add proxy at 
 # /var/snap/microk8s/current/args/containerd-env
-# restart microk8s again
+# restart microk8s again microk8s stop/start
 
 # if pull upto limit, plz pull the image by your seld
 #ctr -a /var/snap/microk8s/common/run/containerd.sock -n k8s.io i pull --user "[dockerhub username]:[passowrd]" [image]
