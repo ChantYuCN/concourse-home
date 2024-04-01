@@ -1,7 +1,8 @@
 # Prometheus
 
 Collect data based on Metrics.  
-Type of Metrics:  
+
+## Type of Metrics:  
 
 - Counter
 
@@ -61,3 +62,26 @@ go_gc_duration_seconds{quantile="0"} 5.4603e-05
 go_gc_duration_seconds{quantile="0.25"} 6.5151e-05
 
 ```
+
+## Data Model
+
+- metric name: Uniquely identified in series
+
+- metric label: k-v pair
+
+- notation: <metric name>{<label name>=<label value>, ...}, api_http_requests_total{method="POST", handler="/messages"}
+
+- sample: Samples form the actual time series data (fload64 value, milisecs timestamp)
+
+HA prometheus.  
+
+ Identical alerts will be deduplicated by the Alertmanager.  
+
+Scale prometheus.   
+
+https://www.robustperception.io/scaling-and-federating-prometheus/  
+
+monitor  
+ -batch-jobs: Pushgateway  
+ -network-device:  SNMP Exporter  
+ -matchines: Node Exporter  
