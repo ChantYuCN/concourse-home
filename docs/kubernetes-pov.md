@@ -1,0 +1,5 @@
+# How to optimize your Kubernetes cost? Wrong answers only
+
+[link1](https://www.reddit.com/r/kubernetes/comments/1bsyksd/how_to_optimize_your_kubernetes_cost_wrong/?%2524deep_link=true&correlation_id=98503b97-b8e1-4027-842f-5544dcc95f6a&post_fullname=t3_1bsyksd&post_index=0&ref=email_digest&ref_campaign=email_digest&ref_source=email&utm_content=post_title&%25243p=e_as&_branch_match_id=1197355507356681416&utm_medium=Email%20Amazon%20SES&_branch_referrer=H4sIAAAAAAAAA22QWWrEMBBET%2BP8eRbLng2GEAi5RiNLbU9jbUhtnMnp085k%2BQlIUHpF9aIbcyqX7TajtcQbndLGUZi2Kj1XTavSFUGXJ5Ex00hBO5izu97WVKVequZNzrIsm%2B%2B8iV5AljvNPeaAjEUegj0GXuW%2BL%2FepWFG3uABHiInJ0wfCPc4Z%2FmJgYmFYcgwj6FAWzGu8UtKxa1qLmGCdtFKvnGesmoOJOaPTTDEAWeHnU7dT%2FflY9yfc1%2B2uOdanthnqrmtba8y5Gw5acmntM8zOBe1xLafgd8iHScHiuzg7ARkHUeg1ObA0YuEHBKN90jSG%2F90iyxn88QTO7GXDwPItQr%2FaMLHDT7aIAVORAQAA)
+
+
